@@ -45,5 +45,4 @@ mySelect.fancySelect();
 mySelect.append('<option>Foo</option><option>Bar</option>');
 
 mySelect.trigger('update');
-
 ```
