@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+		<meta name="designer" content="">
+		<meta name="developer" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<!-- Add "maximum-scale=1" to fix the weird iOS auto-zoom bug on orientation changes. -->
+
+		<title></title>
+
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<link rel="shortcut icon" href="">
+		<style type="text/css">
+			/* Reset + base: */
+			* { margin: 0; padding: 0; border: 0; box-sizing: border-box; -moz-box-sizing: border-box; }
+
+			html { overflow-y: scroll; } /* always show scrollbar in non-IE */
+
+			body, input, select, textarea, button { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+			a { -webkit-tap-highlight-color: #62C8BF; }
+
+			::-moz-selection { background: #62C8BF; color: #fff; text-shadow: none; }
+			::selection { background: #62C8BF; color: #fff; text-shadow: none; }
+
+			img { -ms-interpolation-mode: bicubic; }
+			strong { font-weight: bold; }
+			em { font-style: italic; }
+
+			/* Clearfix: */
+			.group:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+			* html .group { height: 1%; } /* IE6 */
+			*:first-child+html .group { min-height: 1px; } /* IE7 */
+			/* End clearfix */
+
+			body { background: #7A8498; font-size: 18px; color: #fff; padding: 30px 50px 50px; }
+
+			div#main { max-width: 600px; }
+
+			h1 { font-weight: normal; margin-bottom: 12px; font-size: 36px; }
+
+			p { margin-bottom: 18px; line-height: 1.7; }
+			a { text-decoration: none; color: #B7C6E4; border-bottom: 1px solid #99A5BE; }
+
+			code { font-size: 14px; padding: 2px 3px; background: #99A5BE; color: #46565D; border-radius: 4px; }
+
+			pre { padding: 12px 12px 18px; background: #99A5BE; color: #46565D; border-radius: 4px; white-space: pre-wrap; }
+			pre code { padding: 0; background: transparent; border-radius: 0; }
+
+			section { display: none; margin-top: 36px; max-width: 600px; }
+			section h2 { margin-bottom: 18px; font-weight: normal; }
+			section h3 { margin-bottom: 6px; font-weight: normal; }
+			section pre { margin-bottom: 18px; }
+			/* End reset + base */
+		</style>
+
+		<link rel="stylesheet" media="screen, projection" href="fancySelect.css">
+
+		<script type="text/javascript" src="//use.typekit.net/ztn0pkt.js"></script>
+		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="fancySelect.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#menu').fancySelect().on('change', function() {
+					newSection = $('#' + $(this).val())
+
+					if (newSection.hasClass('current')) {
+						return;
+					}
+
+					$('section').removeClass('current');
+					newSection.addClass('current');
+
+					$('section:not(.current)').fadeOut(300, function() {
+						newSection.fadeIn(300);
+					});
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="main">
+			<h1>FancySelect</h1>
+
+			<p>A better select for discerning web developers everywhere, lovingly crafted by <a href="http://octopuscreative.com">Octopus Creative</a>. You can download it and contribute on <a href="https://github.com/octopuscreative/fancyselect">GitHub</a>.</p>
+
+			<select id="menu">
+				<option value="">Learn More…</option>
+				<option value="basic-usage">Basic Usage</option>
+				<option value="updating-options">Updating Options</option>
+			</select>
+		</div>
+
+		<section id="basic-usage">
+			<h2>Basic Usage</h2>
+
+			<p>FancySelect is easy to use. Just target any <code>select</code> element on the page, and call <code>.fancySelect()</code> on it. If the select has an option with no value, it'll be used as a sort of placeholder text.</p>
+
+			<p>By default, FancySelect uses native selects and styles only the trigger on mobile devices. To override this, pass an object with <code>forceMobile</code> set to <code>true</code> when initializing it.</p>
+
+			<h3>HTML</h3>
+
+			<pre><code>&lt;select class="basic"&gt;
+	&lt;option value=&quot;&quot;&gt;Select something…&lt;/option&gt;
+	&lt;option&gt;Lorem&lt;/option&gt;
+	&lt;option&gt;Ipsum&lt;/option&gt;
+	&lt;option&gt;Dolor&lt;/option&gt;
+	&lt;option&gt;Sit&lt;/option&gt;
+	&lt;option&gt;Amet&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+			<h3>JavaScript</h3>
+
+			<pre><code>$('.basic').fancySelect();</code></pre>
+		</section>
+
+		<section id="updating-options">
+			<h2>Updating Options</h2>
+
+			<p>If the options in your select change after initializing FancySelect, you can tell it to rebuild the list of options by triggering <code>replace</code> on the select element.</p>
+
+			<h3>JavaScript</h3>
+
+			<pre><code>var mySelect = $('.my-select');
+mySelect.fancySelect();
+
+mySelect.append('&lt;option&gt;Foo&lt;/option&gt;&lt;option&gt;Bar&lt;/option&gt;')
+mySelect.trigger('update');</code></pre>
+		</section>
+	</body>
+</html>
