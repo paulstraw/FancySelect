@@ -1,7 +1,7 @@
 FancySelect
 ===========
 
-A better select for discerning web developers everywhere, lovingly crafted by [Octopus Creative](http://octopuscreative.com). You can download it and contribute on [GitHub](https://github.com/octopuscreative/fancyselect).
+A better select for discerning web developers everywhere, lovingly crafted by [Octopus Creative](http://octopuscreative.com). You can download it here, or [check out the demo](http://code.octopuscreative.com/fancyselect/).
 
 Basic Usage
 -----------
