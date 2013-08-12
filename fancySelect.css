@@ -11,7 +11,7 @@ div.fancy-select.disabled {
 }
 
 div.fancy-select select:focus + div.trigger {
-	box-shadow: 0 0 0 2px #2C8686;
+	box-shadow: 0 0 0 2px #4B5468;
 }
 
 div.fancy-select select:focus + div.trigger.open {
@@ -33,11 +33,11 @@ div.fancy-select div.trigger {
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	width: 200px;
 
-	transition: all 150ms ease-out;
-	-webkit-transition: all 150ms ease-out;
-	-moz-transition: all 150ms ease-out;
-	-ms-transition: all 150ms ease-out;
-	-o-transition: all 150ms ease-out;
+	transition: all 240ms ease-out;
+	-webkit-transition: all 240ms ease-out;
+	-moz-transition: all 240ms ease-out;
+	-ms-transition: all 240ms ease-out;
+	-o-transition: all 240ms ease-out;
 }
 
 div.fancy-select div.trigger:after {
@@ -47,7 +47,7 @@ div.fancy-select div.trigger:after {
 	width: 0;
 	height: 0;
 	border: 5px solid transparent;
-	border-top-color: #7A8498;
+	border-top-color: #4B5468;
 	top: 17px;
 	right: 9px;
 }
