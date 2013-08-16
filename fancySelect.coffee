@@ -60,18 +60,19 @@ $.fn.fancySelect = (opts) ->
           if trigger.hasClass 'open'
             sel.focus()
         else
-          options.toggleClass 'open'
-
-          sel.focus()
-
           if trigger.hasClass 'open'
             parent = trigger.parent()
             offParent = parent.offsetParent()
 
-            if (parent.position().top + parent.outerHeight() + 5) > offParent.height() - options.outerHeight()
+            #todo 20 is very static
+            if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()
               options.addClass 'overflowing'
             else
               options.removeClass 'overflowing'
+
+          options.toggleClass 'open'
+
+          sel.focus()
 
     sel.on 'enable', ->
       sel.prop 'disabled', false
