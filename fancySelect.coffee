@@ -145,6 +145,9 @@ $.fn.fancySelect = (opts) ->
       options.find('.hover').removeClass('hover')
 
     copyOptionsToList = ->
+      # update our trigger to reflect the select (it really already should, this is just a safety)
+      updateTriggerText()
+
       return if isMobile && !settings.forceMobile
 
       # snag current options before we add a default one
@@ -156,9 +159,6 @@ $.fn.fancySelect = (opts) ->
 
         if opt.val() && !opt.prop('disabled')
           options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
-
-      # update our trigger to reflect the select (it really already should, this is just a safety)
-      updateTriggerText()
 
     sel.on 'update', ->
       wrapper.find('.options').empty()

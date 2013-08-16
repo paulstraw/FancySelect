@@ -148,17 +148,17 @@
       });
       copyOptionsToList = function() {
         var selOpts;
+        updateTriggerText();
         if (isMobile && !settings.forceMobile) {
           return;
         }
         selOpts = sel.find('option');
-        sel.find('option').each(function(i, opt) {
+        return sel.find('option').each(function(i, opt) {
           opt = $(opt);
           if (opt.val() && !opt.prop('disabled')) {
             return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
           }
         });
-        return updateTriggerText();
       };
       sel.on('update', function() {
         wrapper.find('.options').empty();
