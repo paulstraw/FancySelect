@@ -10,6 +10,8 @@ FancySelect is easy to use. Just target any `select` element on the page, and ca
 
 By default, FancySelect uses native selects and styles only the trigger on iOS devices. To override this, pass an object with `forceiOS` set to `true` when initializing it.
 
+FancySelect also passes any classes specified in the select's `data-class` attribute, which you can use to style specific FancySelect instances.
+
 
 ### HTML
 
