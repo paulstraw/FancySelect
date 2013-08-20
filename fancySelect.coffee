@@ -1,9 +1,9 @@
 $.fn.fancySelect = (opts) ->
   settings = $.extend({
-    forceMobile: false
+    forceiOS: false
   }, opts)
 
-  isMobile = !!navigator.userAgent.match /Mobile|webOS/i
+  isiOS = !!navigator.userAgent.match /iP(hone|od|ad)/i
 
   return this.each ->
     sel = $(this)
@@ -27,12 +27,12 @@ $.fn.fancySelect = (opts) ->
     wrapper.addClass(sel.data('class'))
 
     wrapper.append '<div class="trigger">'
-    wrapper.append '<ul class="options">' unless isMobile && !settings.forceMobile
+    wrapper.append '<ul class="options">' unless isiOS && !settings.forceiOS
 
     trigger = wrapper.find '.trigger'
     options = wrapper.find '.options'
 
-    #disabled in markup?
+    # disabled in markup?
     disabled = sel.prop('disabled')
     if disabled
       wrapper.addClass 'disabled'
@@ -55,8 +55,8 @@ $.fn.fancySelect = (opts) ->
         trigger.toggleClass 'open'
 
         # fancySelect defaults to using native selects with a styled trigger on mobile
-        # don't show the options if we're on mobile and haven't set `forceMobile`
-        if isMobile && !settings.forceMobile
+        # don't show the options if we're on mobile and haven't set `forceiOS`
+        if isiOS && !settings.forceiOS
           if trigger.hasClass 'open'
             sel.focus()
         else
@@ -64,7 +64,7 @@ $.fn.fancySelect = (opts) ->
             parent = trigger.parent()
             offParent = parent.offsetParent()
 
-            #todo 20 is very static
+            # TODO 20 is very static
             if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()
               options.addClass 'overflowing'
             else
@@ -72,7 +72,7 @@ $.fn.fancySelect = (opts) ->
 
           options.toggleClass 'open'
 
-          sel.focus()
+          sel.focus() unless isiOS
 
     sel.on 'enable', ->
       sel.prop 'disabled', false
@@ -86,7 +86,7 @@ $.fn.fancySelect = (opts) ->
       disabled = true
 
     sel.on 'change', (e) ->
-      if e.originalEvent and e.originalEvent.isTrusted
+      if e.originalEvent && e.originalEvent.isTrusted
         # discard firefox-only automatic event when hitting enter, we want to trigger our own
         e.stopPropagation()
       else
@@ -131,7 +131,8 @@ $.fn.fancySelect = (opts) ->
 
     # handle item selection
     options.on 'click', 'li', ->
-      sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
+      sel.val($(this).data('value')).trigger('change')
+      sel.trigger('blur').trigger('focus') unless isiOS
 
     # handle mouse selection
     options.on 'mouseenter', 'li', ->
@@ -148,7 +149,7 @@ $.fn.fancySelect = (opts) ->
       # update our trigger to reflect the select (it really already should, this is just a safety)
       updateTriggerText()
 
-      return if isMobile && !settings.forceMobile
+      return if isiOS && !settings.forceiOS
 
       # snag current options before we add a default one
       selOpts = sel.find 'option'
@@ -160,6 +161,7 @@ $.fn.fancySelect = (opts) ->
         if opt.val() && !opt.prop('disabled')
           options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
 
+    # for updating the list of options after initialization
     sel.on 'update', ->
       wrapper.find('.options').empty()
       copyOptionsToList()

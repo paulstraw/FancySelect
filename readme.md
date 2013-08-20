@@ -8,7 +8,7 @@ Basic Usage
 
 FancySelect is easy to use. Just target any `select` element on the page, and call `.fancySelect()` on it. If the select has an option with no value, it'll be used as a sort of placeholder text.
 
-By default, FancySelect uses native selects and styles only the trigger on mobile devices. To override this, pass an object with `forceMobile` set to `true` when initializing it.
+By default, FancySelect uses native selects and styles only the trigger on iOS devices. To override this, pass an object with `forceiOS` set to `true` when initializing it.
 
 
 ### HTML
