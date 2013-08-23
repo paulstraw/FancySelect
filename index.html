@@ -18,7 +18,7 @@
 
 			body { background: #7A8498; }
 
-			div#main { font-size: 16px; line-height: 24px; color: #fff; }
+			div#main { font-size: 16px; line-height: 26px; color: #fff; }
 			div#main div.fancy-select { margin: 0 auto 60px; width: 200px; }
 
 			div#main p { margin-bottom: 24px; }
@@ -31,6 +31,16 @@
 
 			div#main section { width: 940px; margin: 90px auto; }
 			div#main section h2, div#main section h3 { font-size: 22px; margin-bottom: 18px; font-weight: 600; }
+
+			/*one column*/
+			@media only screen and (max-width: 639px) {
+				div#main section { width: 300px; }
+			}
+
+			/*two columns*/
+			@media only screen and (min-width: 640px) and (max-width: 959px) {
+				div#main section { width: 620px; }
+			}
 		</style>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -51,6 +61,13 @@
 
 				var menu = $('#top').find('menu');
 
+				function positionMenuArrow() {
+					var current = menu.find('.current');
+
+					menu.find('.arrow').css('left', current.offset().left + (current.outerWidth() / 2));
+				}
+
+				$(window).on('resize', positionMenuArrow);
 
 				menu.on('click', 'a', function(e) {
 					var el = $(this),
@@ -63,7 +80,7 @@
 
 					el.addClass('current');
 
-					menu.find('.arrow').css('left', el.offset().left + (el.outerWidth() / 2));
+					positionMenuArrow();
 
 					if (currentSection.length) {
 						currentSection.fadeOut(300).promise().done(function() {
