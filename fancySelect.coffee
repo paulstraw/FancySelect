@@ -134,6 +134,12 @@ $.fn.fancySelect = (opts) ->
       sel.val($(this).data('value')).trigger('change')
       sel.trigger('blur').trigger('focus') unless isiOS
 
+    # Add class selected to selected item
+    options.on 'click', 'li', (e) ->
+      options.find('.selected').removeClass('selected')
+      $(e.currentTarget).addClass 'selected'
+      return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
+
     # handle mouse selection
     options.on 'mouseenter', 'li', ->
       nowHovered = $(this)

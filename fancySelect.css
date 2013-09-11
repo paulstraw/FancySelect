@@ -79,7 +79,7 @@ div.fancy-select ul.options {
 	border-top: 1px solid #7DD8D2;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	min-width: 200px;
-	padding: 6px 0;
+	/*padding: 6px 0;*/
 
 	transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
 	-webkit-transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
@@ -125,7 +125,7 @@ div.fancy-select ul.options.overflowing.open {
 }
 
 div.fancy-select ul.options li {
-	padding: 6px 12px;
+	padding: 8px 12px;
 	color: #2B8686;
 	cursor: pointer;
 	white-space: nowrap;
@@ -135,6 +135,11 @@ div.fancy-select ul.options li {
 	-moz-transition: all 150ms ease-out;
 	-ms-transition: all 150ms ease-out;
 	-o-transition: all 150ms ease-out;
+}
+
+div.fancy-select ul.options li.selected {
+	background: rgba(43,134,134,0.3);
+	color: rgba(255,255,255,0.75);
 }
 
 div.fancy-select ul.options li.hover {
