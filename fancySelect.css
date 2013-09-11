@@ -79,7 +79,6 @@ div.fancy-select ul.options {
 	border-top: 1px solid #7DD8D2;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	min-width: 200px;
-	/*padding: 6px 0;*/
 
 	transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
 	-webkit-transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
