@@ -141,6 +141,11 @@
           return sel.trigger('blur').trigger('focus');
         }
       });
+      options.on('click', 'li', function(e) {
+        options.find('.selected').removeClass('selected');
+        $(e.currentTarget).addClass('selected');
+        return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus');
+      });
       options.on('mouseenter', 'li', function() {
         var hovered, nowHovered;
         nowHovered = $(this);
@@ -161,7 +166,11 @@
         return sel.find('option').each(function(i, opt) {
           opt = $(opt);
           if (opt.val() && !opt.prop('disabled')) {
-            return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
+            if (opt.prop('selected')) {
+              return options.append("<li data-value=\"" + (opt.val()) + "\" class=\"selected\">" + (opt.text()) + "</li>");
+            } else {
+              return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
+            }
           }
         });
       };
