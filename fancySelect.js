@@ -166,7 +166,11 @@
         return sel.find('option').each(function(i, opt) {
           opt = $(opt);
           if (opt.val() && !opt.prop('disabled')) {
-            return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
+            if (opt.prop('selected')) {
+              return options.append("<li data-value=\"" + (opt.val()) + "\" class=\"selected\">" + (opt.text()) + "</li>");
+            } else {
+              return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
+            }
           }
         });
       };

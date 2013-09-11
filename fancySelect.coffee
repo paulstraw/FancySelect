@@ -165,7 +165,11 @@ $.fn.fancySelect = (opts) ->
         opt = $(opt)
 
         if opt.val() && !opt.prop('disabled')
-          options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
+          # Is there a select option on page load?
+          if opt.prop('selected')
+            options.append "<li data-value=\"#{opt.val()}\" class=\"selected\">#{opt.text()}</li>"
+          else
+            options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
 
     # for updating the list of options after initialization
     sel.on 'update', ->
