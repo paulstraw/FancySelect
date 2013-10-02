@@ -1,3 +1,5 @@
+$ = jQuery
+
 $.fn.fancySelect = (opts) ->
   settings = $.extend({
     forceiOS: false
