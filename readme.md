@@ -6,7 +6,7 @@ A better select for discerning web developers everywhere, lovingly crafted by [O
 Basic Usage
 -----------
 
-FancySelect is easy to use. Just include jQuery, target any `select` element on the page, and call `.fancySelect()` on it. If the select has an option with no value, it'll be used as a sort of placeholder text.
+FancySelect is easy to use. Just include jQuery or Zepto, target any `select` element on the page, and call `.fancySelect()` on it. If the select has an option with no value, it'll be used as a sort of placeholder text.
 
 By default, FancySelect uses native selects and styles only the trigger on iOS devices. To override this, pass an object with `forceiOS` set to `true` when initializing it.
 

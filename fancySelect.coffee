@@ -1,4 +1,4 @@
-$ = jQuery
+$ = window.jQuery || window.Zepto || window.$
 
 $.fn.fancySelect = (opts) ->
   settings = $.extend({
@@ -26,7 +26,7 @@ $.fn.fancySelect = (opts) ->
     sel.wrap '<div class="fancy-select">'
     wrapper = sel.parent()
 
-    wrapper.addClass(sel.data('class'))
+    wrapper.addClass(sel.data('class')) if sel.data('class')
 
     wrapper.append '<div class="trigger">'
     wrapper.append '<ul class="options">' unless isiOS && !settings.forceiOS
