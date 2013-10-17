@@ -40,6 +40,7 @@ $.fn.fancySelect = (opts) ->
       wrapper.addClass 'disabled'
 
     updateTriggerText = ->
+      #TODO change to `[selected]`? is this reliable?
       trigger.text sel.find(':selected').text()
 
     sel.on 'blur', ->
@@ -131,13 +132,13 @@ $.fn.fancySelect = (opts) ->
           options.scrollTop 0
           options.scrollTop newHovered.position().top - 12
 
-    # handle item selection
-    options.on 'click', 'li', ->
-      sel.val($(this).data('value')).trigger('change')
-      sel.trigger('blur').trigger('focus') unless isiOS
-
+    # Handle item selection, and
     # Add class selected to selected item
     options.on 'click', 'li', (e) ->
+      sel.val($(this).data('value'))
+
+      sel.trigger('blur').trigger('focus') unless isiOS
+
       options.find('.selected').removeClass('selected')
       $(e.currentTarget).addClass 'selected'
       return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
