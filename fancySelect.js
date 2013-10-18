@@ -6,6 +6,7 @@
 
   $.fn.fancySelect = function(opts) {
     var isiOS, settings;
+    opts || (opts = {});
     settings = $.extend({
       forceiOS: false
     }, opts);
@@ -160,6 +161,15 @@
       options.on('mouseleave', 'li', function() {
         return options.find('.hover').removeClass('hover');
       });
+      find_options_to_be_copied = function() {
+        if (opts.include_blank) {
+          return sel.find('option');
+        } else {
+          return sel.find('option').filter(function(el) {
+            return $(sel.find('option')[el]).val() !== "";
+          });
+        }
+      };
       copyOptionsToList = function() {
         var selOpts;
         updateTriggerText();
@@ -167,9 +177,9 @@
           return;
         }
         selOpts = sel.find('option');
-        return sel.find('option').each(function(i, opt) {
+        return find_options_to_be_copied().each(function(i, opt) {
           opt = $(opt);
-          if (opt.val() && !opt.prop('disabled')) {
+          if (!opt.prop('disabled')) {
             if (opt.prop('selected')) {
               return options.append("<li data-value=\"" + (opt.val()) + "\" class=\"selected\">" + (opt.text()) + "</li>");
             } else {
