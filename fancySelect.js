@@ -62,7 +62,7 @@
             if (scrollFlag === false) {
               return trigger.trigger('close');
             }
-          }, 120);
+          }, 333);
         }
       });
       trigger.on('close', function() {
