@@ -59,6 +59,11 @@ $.fn.fancySelect = (opts) ->
       event.stopPropagation()
 
       unless disabled
+        unless trigger.hasClass 'open'
+          $(".fancy-select").each ->
+            $(this).find('.trigger').removeClass 'open'
+            $(this).find('.options').removeClass 'open'
+
         trigger.toggleClass 'open'
 
         # fancySelect defaults to using native selects with a styled trigger on mobile
