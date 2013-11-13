@@ -9,6 +9,8 @@ $.fn.fancySelect = (opts) ->
 
   return this.each ->
     sel = $(this)
+    html = $('html')
+
     return if sel.hasClass('fancified') || sel[0].tagName != 'SELECT'
     sel.addClass('fancified')
 
@@ -43,7 +45,7 @@ $.fn.fancySelect = (opts) ->
       #TODO change to `[selected]`? is this reliable?
       trigger.text sel.find(':selected').text()
 
-    sel.on 'blur', ->
+    html.on 'click', ->
       if trigger.hasClass 'open'
         setTimeout ->
           trigger.trigger 'close'
@@ -53,7 +55,9 @@ $.fn.fancySelect = (opts) ->
       trigger.removeClass 'open'
       options.removeClass 'open'
 
-    trigger.on 'click', ->
+    trigger.on 'click', (event) ->
+      event.stopPropagation()
+
       unless disabled
         trigger.toggleClass 'open'
 
