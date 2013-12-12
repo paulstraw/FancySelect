@@ -96,15 +96,20 @@ $.fn.fancySelect = (opts) ->
         updateTriggerText()
 
     # keyboard control
+    keyTrigger = (e) ->
+      if e.which in [13, 32, 38, 40] # enter, space, up, down
+        e.preventDefault()
+        trigger.trigger 'click'
+
+    trigger.on 'keydown', keyTrigger
+
     sel.on 'keydown', (e) ->
       w = e.which
       hovered = options.find('.hover')
       hovered.removeClass('hover')
 
       if !options.hasClass('open')
-        if w in [13, 32, 38, 40] # enter, space, up, down
-          e.preventDefault()
-          trigger.trigger 'click'
+        keyTrigger(e)
       else
         if w == 38 # up
           e.preventDefault()
@@ -157,6 +162,11 @@ $.fn.fancySelect = (opts) ->
     copyOptionsToList = ->
       # update our trigger to reflect the select (it really already should, this is just a safety)
       updateTriggerText()
+
+      # move the select's tabindex to the trigger
+      if tabindex = sel.attr 'tabindex'
+        trigger.attr 'tabindex', tabindex
+        sel.removeAttr 'tabindex'
 
       return if isiOS && !settings.forceiOS
 
