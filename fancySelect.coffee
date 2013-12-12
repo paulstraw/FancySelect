@@ -43,11 +43,14 @@ $.fn.fancySelect = (opts) ->
       #TODO change to `[selected]`? is this reliable?
       trigger.text sel.find(':selected').text()
 
-    sel.on 'blur', ->
+    triggerClose = ->
       if trigger.hasClass 'open'
         setTimeout ->
           trigger.trigger 'close'
         , 120
+
+    trigger.on 'blur', triggerClose
+    sel.on 'blur', triggerClose
 
     trigger.on 'close', ->
       trigger.removeClass 'open'
@@ -75,7 +78,11 @@ $.fn.fancySelect = (opts) ->
 
           options.toggleClass 'open'
 
-          sel.focus() unless isiOS
+          unless isiOS
+            if trigger.attr('tabindex')?
+              trigger.focus()
+            else
+              sel.focus()
 
     sel.on 'enable', ->
       sel.prop 'disabled', false
@@ -96,20 +103,15 @@ $.fn.fancySelect = (opts) ->
         updateTriggerText()
 
     # keyboard control
-    keyTrigger = (e) ->
-      if e.which in [13, 32, 38, 40] # enter, space, up, down
-        e.preventDefault()
-        trigger.trigger 'click'
-
-    trigger.on 'keydown', keyTrigger
-
-    sel.on 'keydown', (e) ->
+    keydownHandler = (e) ->
       w = e.which
       hovered = options.find('.hover')
       hovered.removeClass('hover')
 
       if !options.hasClass('open')
-        keyTrigger(e)
+        if e.which in [13, 32, 38, 40] # enter, space, up, down
+          e.preventDefault()
+          trigger.trigger 'click'
       else
         if w == 38 # up
           e.preventDefault()
@@ -136,6 +138,9 @@ $.fn.fancySelect = (opts) ->
         if newHovered.length
           options.scrollTop 0
           options.scrollTop newHovered.position().top - 12
+
+    trigger.on 'keydown', keydownHandler
+    sel.on 'keydown', keydownHandler
 
     # Handle item selection, and
     # Add class selected to selected item
@@ -164,7 +169,7 @@ $.fn.fancySelect = (opts) ->
       updateTriggerText()
 
       # move the select's tabindex to the trigger
-      if tabindex = sel.attr 'tabindex'
+      if (tabindex = sel.attr 'tabindex')?
         trigger.attr 'tabindex', tabindex
         sel.removeAttr 'tabindex'
 
