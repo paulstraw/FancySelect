@@ -109,7 +109,7 @@ $.fn.fancySelect = (opts) ->
       hovered.removeClass('hover')
 
       if !options.hasClass('open')
-        if e.which in [13, 32, 38, 40] # enter, space, up, down
+        if w in [13, 32, 38, 40] # enter, space, up, down
           e.preventDefault()
           trigger.trigger 'click'
       else
