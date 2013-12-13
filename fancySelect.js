@@ -67,7 +67,7 @@
             if (trigger.hasClass('open')) {
               parent = trigger.parent();
               offParent = parent.offsetParent();
-              if ((parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()) {
+              if ((parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height() + $(window).scrollTop()) {
                 options.addClass('overflowing');
               } else {
                 options.removeClass('overflowing');

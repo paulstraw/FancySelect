@@ -68,7 +68,7 @@ $.fn.fancySelect = (opts) ->
             offParent = parent.offsetParent()
 
             # TODO 20 is very static
-            if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()
+            if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height() + $(window).scrollTop()
               options.addClass 'overflowing'
             else
               options.removeClass 'overflowing'
