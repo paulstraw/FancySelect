@@ -43,11 +43,14 @@ $.fn.fancySelect = (opts) ->
       #TODO change to `[selected]`? is this reliable?
       trigger.text sel.find(':selected').text()
 
-    sel.on 'blur', ->
+    triggerClose = ->
       if trigger.hasClass 'open'
         setTimeout ->
           trigger.trigger 'close'
         , 120
+
+    trigger.on 'blur', triggerClose
+    sel.on 'blur', triggerClose
 
     trigger.on 'close', ->
       trigger.removeClass 'open'
@@ -75,7 +78,11 @@ $.fn.fancySelect = (opts) ->
 
           options.toggleClass 'open'
 
-          sel.focus() unless isiOS
+          unless isiOS
+            if trigger.attr('tabindex')?
+              trigger.focus()
+            else
+              sel.focus()
 
     sel.on 'enable', ->
       sel.prop 'disabled', false
@@ -96,7 +103,7 @@ $.fn.fancySelect = (opts) ->
         updateTriggerText()
 
     # keyboard control
-    sel.on 'keydown', (e) ->
+    keydownHandler = (e) ->
       w = e.which
       hovered = options.find('.hover')
       hovered.removeClass('hover')
@@ -132,6 +139,9 @@ $.fn.fancySelect = (opts) ->
           options.scrollTop 0
           options.scrollTop newHovered.position().top - 12
 
+    trigger.on 'keydown', keydownHandler
+    sel.on 'keydown', keydownHandler
+
     # Handle item selection, and
     # Add class selected to selected item
     options.on 'click', 'li', (e) ->
@@ -157,6 +167,11 @@ $.fn.fancySelect = (opts) ->
     copyOptionsToList = ->
       # update our trigger to reflect the select (it really already should, this is just a safety)
       updateTriggerText()
+
+      # move the select's tabindex to the trigger
+      if (tabindex = sel.attr 'tabindex')?
+        trigger.attr 'tabindex', tabindex
+        sel.removeAttr 'tabindex'
 
       return if isiOS && !settings.forceiOS
 
