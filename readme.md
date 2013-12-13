@@ -48,3 +48,30 @@ mySelect.append('<option>Foo</option><option>Bar</option>');
 
 mySelect.trigger('update');
 ```
+
+Enabling/Disabling
+------------------
+
+FancySelect will automatically pick up your `select`'s `disabled` property on initialization. If you need to enable or disable it again later, you can do that by triggering `enable` or `disable` on your select element.
+
+### HTML
+
+``` html
+<select class="my-select" disabled>
+	<option>First Option</option>
+	<option>Second Option</option>
+</select>
+```
+
+### JavaScript
+
+``` javascript
+var mySelect = $('.my-select');
+mySelect.fancySelect(); // currently disabled because of html property
+
+// later…
+mySelect.trigger('enable'); // now enabled
+
+// even later…
+mySelect.trigger('disable'); // now disabled again
+```

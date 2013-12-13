@@ -133,6 +133,7 @@
 				<ul>
 					<li><a href="#basic-usage">Basic Usage</a></li>
 					<li><a href="#updating-options">Updating Options</a></li>
+					<li><a href="#enabling-disabling">Enabling/Disabling</a></li>
 				</ul>
 			</menu>
 		</div>
@@ -178,6 +179,28 @@ mySelect.fancySelect();
 
 mySelect.append('&lt;option&gt;Foo&lt;/option&gt;&lt;option&gt;Bar&lt;/option&gt;');
 mySelect.trigger('update');</code></pre>
+			</section>
+
+			<section id="enabling-disabling">
+				<p>FancySelect will automatically pick up your <code>select</code>'s <code>disabled</code> property on initialization. If you need to enable or disable it again later, you can do that by triggering <code>enable</code> or <code>disable</code> on your select element.</p>
+
+				<h3>HTML</h3>
+
+				<pre><code>&lt;select class="my-select" disabled&gt;
+	&lt;option&gt;First Option&lt;/option&gt;
+	&lt;option&gt;Second Option&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+				<h3>JavaScript</h3>
+
+				<pre><code>var mySelect = $('.my-select');
+mySelect.fancySelect(); // currently disabled because of html property
+
+// later…
+mySelect.trigger('enable'); // now enabled
+
+// even later…
+mySelect.trigger('disable'); // now disabled again</code></pre>
 			</section>
 		</div>
 	</body>
