@@ -1,9 +1,9 @@
 $ = window.jQuery || window.Zepto || window.$
 
-$.fn.fancySelect = (opts) ->
-  opts ||= {}
+$.fn.fancySelect = (opts = {}) ->
   settings = $.extend({
     forceiOS: false
+    includeBlank: false
   }, opts)
 
   isiOS = !!navigator.userAgent.match /iP(hone|od|ad)/i
@@ -155,13 +155,6 @@ $.fn.fancySelect = (opts) ->
     options.on 'mouseleave', 'li', ->
       options.find('.hover').removeClass('hover')
 
-    find_options_to_be_copied = ->
-      if opts.include_blank
-        sel.find('option')
-      else
-        sel.find('option').filter (el) ->
-          $(sel.find('option')[el]).val() isnt ""
-
     copyOptionsToList = ->
       # update our trigger to reflect the select (it really already should, this is just a safety)
       updateTriggerText()
@@ -173,10 +166,10 @@ $.fn.fancySelect = (opts) ->
 
       # generate list of options for the fancySelect
 
-      find_options_to_be_copied().each (i, opt) ->
+      sel.find('option').each (i, opt) ->
         opt = $(opt)
 
-        if !opt.prop('disabled')
+        if !opt.prop('disabled') && (opt.val() || settings.includeBlank)
           # Is there a select option on page load?
           if opt.prop('selected')
             options.append "<li data-value=\"#{opt.val()}\" class=\"selected\">#{opt.text()}</li>"
