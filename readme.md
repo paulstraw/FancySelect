@@ -95,7 +95,7 @@ If you need to do something fancy with the trigger or the individual options, yo
 ``` javascript
 $('.bulbs').fancySelect({
 	optionTemplate: function(optionEl) {
-		return optionEl.text() + '<div class="icon-' + optionEl.data('icon') + '"></div>'
+		return optionEl.text() + '<div class="icon-' + optionEl.data('icon') + '"></div>';
 	}
 }
 })
