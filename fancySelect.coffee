@@ -4,6 +4,10 @@ $.fn.fancySelect = (opts = {}) ->
   settings = $.extend({
     forceiOS: false
     includeBlank: false
+    optionTemplate: (optionEl) ->
+      return optionEl.text()
+    triggerTemplate: (optionEl) ->
+      return optionEl.text()
   }, opts)
 
   isiOS = !!navigator.userAgent.match /iP(hone|od|ad)/i
@@ -41,8 +45,8 @@ $.fn.fancySelect = (opts = {}) ->
       wrapper.addClass 'disabled'
 
     updateTriggerText = ->
-      #TODO change to `[selected]`? is this reliable?
-      trigger.text sel.find(':selected').text()
+      triggerHtml = settings.triggerTemplate(sel.find(':selected'))
+      trigger.html(triggerHtml)
 
     sel.on 'blur', ->
       if trigger.hasClass 'open'
@@ -136,13 +140,15 @@ $.fn.fancySelect = (opts = {}) ->
     # Handle item selection, and
     # Add class selected to selected item
     options.on 'click', 'li', (e) ->
-      sel.val($(this).data('value'))
+      clicked = $(this)
+
+      sel.val(clicked.data('raw-value'))
 
       sel.trigger('blur').trigger('focus') unless isiOS
 
       options.find('.selected').removeClass('selected')
-      $(e.currentTarget).addClass 'selected'
-      return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
+      clicked.addClass 'selected'
+      return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus')
 
     # handle mouse selection
     options.on 'mouseenter', 'li', ->
@@ -170,11 +176,14 @@ $.fn.fancySelect = (opts = {}) ->
         opt = $(opt)
 
         if !opt.prop('disabled') && (opt.val() || settings.includeBlank)
+          # Generate the inner HTML for the option from our template
+          optHtml = settings.optionTemplate(opt)
+
           # Is there a select option on page load?
           if opt.prop('selected')
-            options.append "<li data-value=\"#{opt.val()}\" class=\"selected\">#{opt.text()}</li>"
+            options.append "<li data-raw-value=\"#{opt.val()}\" class=\"selected\">#{optHtml}</li>"
           else
-            options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
+            options.append "<li data-raw-value=\"#{opt.val()}\">#{optHtml}</li>"
 
     # for updating the list of options after initialization
     sel.on 'update', ->

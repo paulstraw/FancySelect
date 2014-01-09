@@ -75,3 +75,28 @@ mySelect.trigger('enable'); // now enabled
 // even later…
 mySelect.trigger('disable'); // now disabled again
 ```
+
+Templates
+---------
+
+If you need to do something fancy with the trigger or the individual options, you can use `triggerTemplate` or `optionTemplate`, which are both functions passed an `option` element (jQuery-wrapped) and returning an HTML string to render.
+
+
+### HTML
+
+``` html
+<select class="bulbs">
+	<option data-icon="old">Incandescent</option>
+	<option data-icon="curly">CFL</option>
+	<option data-icon="work">Halogen</option>
+</select>
+```
+
+``` javascript
+$('.bulbs').fancySelect({
+	optionTemplate: function(optionEl) {
+		return optionEl.text() + '<div class="icon-' + optionEl.data('icon') + '"></div>'
+	}
+}
+})
+```
