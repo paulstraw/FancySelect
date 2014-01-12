@@ -48,10 +48,23 @@ $.fn.fancySelect = (opts = {}) ->
       triggerHtml = settings.triggerTemplate(sel.find(':selected'))
       trigger.html(triggerHtml)
 
+    # deal with scrolling long option lists
+    scrollFlag = false
+    scrollTimeout = false
+    options.on 'scroll', ->
+      scrollFlag = true
+      if scrollTimeout
+        clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout ->
+        scrollFlag = false
+        sel.focus()
+      , 120
+
     sel.on 'blur', ->
       if trigger.hasClass 'open'
         setTimeout ->
-          trigger.trigger 'close'
+          if scrollFlag == false
+            trigger.trigger 'close'
         , 120
 
     trigger.on 'close', ->

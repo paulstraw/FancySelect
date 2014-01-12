@@ -21,7 +21,7 @@
     }, opts);
     isiOS = !!navigator.userAgent.match(/iP(hone|od|ad)/i);
     return this.each(function() {
-      var copyOptionsToList, disabled, options, sel, trigger, updateTriggerText, wrapper;
+      var copyOptionsToList, disabled, options, scrollFlag, scrollTimeout, sel, trigger, updateTriggerText, wrapper;
       sel = $(this);
       if (sel.hasClass('fancified') || sel[0].tagName !== 'SELECT') {
         return;
@@ -56,11 +56,25 @@
         triggerHtml = settings.triggerTemplate(sel.find(':selected'));
         return trigger.html(triggerHtml);
       };
+      scrollFlag = false;
+      scrollTimeout = false;
+      options.on('scroll', function() {
+        scrollFlag = true;
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+        return scrollTimeout = setTimeout(function() {
+          scrollFlag = false;
+          return sel.focus();
+        }, 120);
+      });
       sel.on('blur', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
-            return trigger.trigger('close');
-          }, 120);
+            if (scrollFlag === false) {
+              return trigger.trigger('close');
+            }
+          }, 333);
         }
       });
       trigger.on('close', function() {
