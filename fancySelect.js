@@ -156,13 +156,13 @@
       options.on('click', 'li', function(e) {
         var clicked;
         clicked = $(this);
-        sel.val(clicked.data('raw-value'));
+        sel.val(clicked.attr('data-raw-value'));
         if (!isiOS) {
           sel.trigger('blur').trigger('focus');
         }
         options.find('.selected').removeClass('selected');
         clicked.addClass('selected');
-        return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus');
+        return sel.val(clicked.attr('data-raw-value')).trigger('change').trigger('blur').trigger('focus');
       });
       options.on('mouseenter', 'li', function() {
         var hovered, nowHovered;
