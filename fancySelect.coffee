@@ -48,17 +48,17 @@ $.fn.fancySelect = (opts = {}) ->
       triggerHtml = settings.triggerTemplate(sel.find(':selected'))
       trigger.html(triggerHtml)
 
-    sel.on 'blur', ->
+    sel.on 'blur.fancy', ->
       if trigger.hasClass 'open'
         setTimeout ->
-          trigger.trigger 'close'
+          trigger.trigger 'close.fancy'
         , 120
 
-    trigger.on 'close', ->
+    trigger.on 'close.fancy', ->
       trigger.removeClass 'open'
       options.removeClass 'open'
 
-    trigger.on 'click', ->
+    trigger.on 'click.fancy', ->
       unless disabled
         trigger.toggleClass 'open'
 
@@ -109,7 +109,7 @@ $.fn.fancySelect = (opts = {}) ->
       if !options.hasClass('open')
         if w in [13, 32, 38, 40] # enter, space, up, down
           e.preventDefault()
-          trigger.trigger 'click'
+          trigger.trigger 'click.fancy'
       else
         if w == 38 # up
           e.preventDefault()
@@ -125,12 +125,12 @@ $.fn.fancySelect = (opts = {}) ->
             options.find('li:first-child').addClass('hover')
         else if w == 27 # escape
           e.preventDefault()
-          trigger.trigger 'click'
+          trigger.trigger 'click.fancy'
         else if w in [13, 32] # enter, space
           e.preventDefault()
-          hovered.trigger 'click'
+          hovered.trigger 'click.fancy'
         else if w == 9 # tab
-          if trigger.hasClass 'open' then trigger.trigger 'close'
+          if trigger.hasClass 'open' then trigger.trigger 'close.fancy'
 
         newHovered = options.find('.hover')
         if newHovered.length
@@ -139,26 +139,26 @@ $.fn.fancySelect = (opts = {}) ->
 
     # Handle item selection, and
     # Add class selected to selected item
-    options.on 'click', 'li', (e) ->
+    options.on 'click.fancy', 'li', (e) ->
       clicked = $(this)
 
       sel.val(clicked.data('raw-value'))
 
-      sel.trigger('blur').trigger('focus') unless isiOS
+      sel.trigger('blur.fancy').trigger('focus.fancy') unless isiOS
 
       options.find('.selected').removeClass('selected')
       clicked.addClass 'selected'
-      return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus')
+      return sel.val(clicked.data('raw-value')).trigger('change.fancy').trigger('blur.fancy').trigger('focus.fancy')
 
     # handle mouse selection
-    options.on 'mouseenter', 'li', ->
+    options.on 'mouseenter.fancy', 'li', ->
       nowHovered = $(this)
       hovered = options.find('.hover')
       hovered.removeClass 'hover'
 
       nowHovered.addClass 'hover'
 
-    options.on 'mouseleave', 'li', ->
+    options.on 'mouseleave.fancy', 'li', ->
       options.find('.hover').removeClass('hover')
 
     copyOptionsToList = ->
@@ -186,7 +186,7 @@ $.fn.fancySelect = (opts = {}) ->
             options.append "<li data-raw-value=\"#{opt.val()}\">#{optHtml}</li>"
 
     # for updating the list of options after initialization
-    sel.on 'update', ->
+    sel.on 'update.fancy', ->
       wrapper.find('.options').empty()
       copyOptionsToList()
 
