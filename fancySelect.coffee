@@ -33,10 +33,10 @@ $.fn.fancySelect = (opts = {}) ->
 
     wrapper.addClass(sel.data('class')) if sel.data('class')
 
-    wrapper.append '<div class="trigger">'
-    wrapper.append '<ul class="options">' unless isiOS && !settings.forceiOS
-
+    wrapper.prepend '<div class="trigger">'
     trigger = wrapper.find '.trigger'
+    
+    trigger.after '<ul class="options">' unless isiOS && !settings.forceiOS
     options = wrapper.find '.options'
 
     # disabled in markup?
