@@ -56,18 +56,18 @@
         triggerHtml = settings.triggerTemplate(sel.find(':selected'));
         return trigger.html(triggerHtml);
       };
-      sel.on('blur', function() {
+      sel.on('blur.fancy', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
-            return trigger.trigger('close');
+            return trigger.trigger('close.fancy');
           }, 120);
         }
       });
-      trigger.on('close', function() {
+      trigger.on('close.fancy', function() {
         trigger.removeClass('open');
         return options.removeClass('open');
       });
-      trigger.on('click', function() {
+      trigger.on('click.fancy', function() {
         var offParent, parent;
         if (!disabled) {
           trigger.toggleClass('open');
@@ -103,7 +103,7 @@
         wrapper.addClass('disabled');
         return disabled = true;
       });
-      sel.on('change', function(e) {
+      sel.on('change.fancy', function(e) {
         if (e.originalEvent && e.originalEvent.isTrusted) {
           return e.stopPropagation();
         } else {
@@ -118,7 +118,7 @@
         if (!options.hasClass('open')) {
           if (w === 13 || w === 32 || w === 38 || w === 40) {
             e.preventDefault();
-            return trigger.trigger('click');
+            return trigger.trigger('click.fancy');
           }
         } else {
           if (w === 38) {
@@ -137,13 +137,13 @@
             }
           } else if (w === 27) {
             e.preventDefault();
-            trigger.trigger('click');
+            trigger.trigger('click.fancy');
           } else if (w === 13 || w === 32) {
             e.preventDefault();
-            hovered.trigger('click');
+            hovered.trigger('click.fancy');
           } else if (w === 9) {
             if (trigger.hasClass('open')) {
-              trigger.trigger('close');
+              trigger.trigger('close.fancy');
             }
           }
           newHovered = options.find('.hover');
@@ -153,25 +153,25 @@
           }
         }
       });
-      options.on('click', 'li', function(e) {
+      options.on('click.fancy', 'li', function(e) {
         var clicked;
         clicked = $(this);
         sel.val(clicked.data('raw-value'));
         if (!isiOS) {
-          sel.trigger('blur').trigger('focus');
+          sel.trigger('blur.fancy').trigger('focus.fancy');
         }
         options.find('.selected').removeClass('selected');
         clicked.addClass('selected');
-        return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus');
+        return sel.val(clicked.data('raw-value')).trigger('change.fancy').trigger('blur.fancy').trigger('focus.fancy');
       });
-      options.on('mouseenter', 'li', function() {
+      options.on('mouseenter.fancy', 'li', function() {
         var hovered, nowHovered;
         nowHovered = $(this);
         hovered = options.find('.hover');
         hovered.removeClass('hover');
         return nowHovered.addClass('hover');
       });
-      options.on('mouseleave', 'li', function() {
+      options.on('mouseleave.fancy', 'li', function() {
         return options.find('.hover').removeClass('hover');
       });
       copyOptionsToList = function() {
@@ -194,7 +194,7 @@
           }
         });
       };
-      sel.on('update', function() {
+      sel.on('update.fancy', function() {
         wrapper.find('.options').empty();
         return copyOptionsToList();
       });
