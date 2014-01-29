@@ -6,8 +6,18 @@
 
   $.fn.fancySelect = function(opts) {
     var isiOS, settings;
+    if (opts == null) {
+      opts = {};
+    }
     settings = $.extend({
-      forceiOS: false
+      forceiOS: false,
+      includeBlank: false,
+      optionTemplate: function(optionEl) {
+        return optionEl.text();
+      },
+      triggerTemplate: function(optionEl) {
+        return optionEl.text();
+      }
     }, opts);
     isiOS = !!navigator.userAgent.match(/iP(hone|od|ad)/i);
     return this.each(function() {
@@ -42,20 +52,22 @@
         wrapper.addClass('disabled');
       }
       updateTriggerText = function() {
-        return trigger.text(sel.find(':selected').text());
+        var triggerHtml;
+        triggerHtml = settings.triggerTemplate(sel.find(':selected'));
+        return trigger.html(triggerHtml);
       };
       sel.on('blur', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
-            return trigger.trigger('close.fancy');
+            return trigger.trigger('close');
           }, 120);
         }
       });
-      trigger.on('close.fancy', function() {
+      trigger.on('close', function() {
         trigger.removeClass('open');
         return options.removeClass('open');
       });
-      trigger.on('click.fancy', function() {
+      trigger.on('click', function() {
         var offParent, parent;
         if (!disabled) {
           trigger.toggleClass('open');
@@ -67,7 +79,7 @@
             if (trigger.hasClass('open')) {
               parent = trigger.parent();
               offParent = parent.offsetParent();
-              if ((parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()) {
+              if ((parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height() + $(window).scrollTop()) {
                 options.addClass('overflowing');
               } else {
                 options.removeClass('overflowing');
@@ -106,7 +118,7 @@
         if (!options.hasClass('open')) {
           if (w === 13 || w === 32 || w === 38 || w === 40) {
             e.preventDefault();
-            return trigger.trigger('click.fancy');
+            return trigger.trigger('click');
           }
         } else {
           if (w === 38) {
@@ -125,13 +137,13 @@
             }
           } else if (w === 27) {
             e.preventDefault();
-            trigger.trigger('click.fancy');
+            trigger.trigger('click');
           } else if (w === 13 || w === 32) {
             e.preventDefault();
-            hovered.trigger('click.fancy');
+            hovered.trigger('click');
           } else if (w === 9) {
             if (trigger.hasClass('open')) {
-              trigger.trigger('close.fancy');
+              trigger.trigger('close');
             }
           }
           newHovered = options.find('.hover');
@@ -141,23 +153,25 @@
           }
         }
       });
-      options.on('click.fancy', 'li', function(e) {
-        sel.val($(this).data('value'));
+      options.on('click', 'li', function(e) {
+        var clicked;
+        clicked = $(this);
+        sel.val(clicked.data('raw-value'));
         if (!isiOS) {
           sel.trigger('blur').trigger('focus');
         }
         options.find('.selected').removeClass('selected');
-        $(e.currentTarget).addClass('selected');
-        return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus');
+        clicked.addClass('selected');
+        return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus');
       });
-      options.on('mouseenter.fancy', 'li', function() {
+      options.on('mouseenter', 'li', function() {
         var hovered, nowHovered;
         nowHovered = $(this);
         hovered = options.find('.hover');
         hovered.removeClass('hover');
         return nowHovered.addClass('hover');
       });
-      options.on('mouseleave.fancy', 'li', function() {
+      options.on('mouseleave', 'li', function() {
         return options.find('.hover').removeClass('hover');
       });
       copyOptionsToList = function() {
@@ -168,17 +182,19 @@
         }
         selOpts = sel.find('option');
         return sel.find('option').each(function(i, opt) {
+          var optHtml;
           opt = $(opt);
-          if (opt.val() && !opt.prop('disabled')) {
+          if (!opt.prop('disabled') && (opt.val() || settings.includeBlank)) {
+            optHtml = settings.optionTemplate(opt);
             if (opt.prop('selected')) {
-              return options.append("<li data-value=\"" + (opt.val()) + "\" class=\"selected\">" + (opt.text()) + "</li>");
+              return options.append("<li data-raw-value=\"" + (opt.val()) + "\" class=\"selected\">" + optHtml + "</li>");
             } else {
-              return options.append("<li data-value=\"" + (opt.val()) + "\">" + (opt.text()) + "</li>");
+              return options.append("<li data-raw-value=\"" + (opt.val()) + "\">" + optHtml + "</li>");
             }
           }
         });
       };
-      sel.on('update.fancy', function() {
+      sel.on('update', function() {
         wrapper.find('.options').empty();
         return copyOptionsToList();
       });

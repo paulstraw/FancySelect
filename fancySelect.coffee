@@ -1,8 +1,13 @@
 $ = window.jQuery || window.Zepto || window.$
 
-$.fn.fancySelect = (opts) ->
+$.fn.fancySelect = (opts = {}) ->
   settings = $.extend({
     forceiOS: false
+    includeBlank: false
+    optionTemplate: (optionEl) ->
+      return optionEl.text()
+    triggerTemplate: (optionEl) ->
+      return optionEl.text()
   }, opts)
 
   isiOS = !!navigator.userAgent.match /iP(hone|od|ad)/i
@@ -40,20 +45,20 @@ $.fn.fancySelect = (opts) ->
       wrapper.addClass 'disabled'
 
     updateTriggerText = ->
-      #TODO change to `[selected]`? is this reliable?
-      trigger.text sel.find(':selected').text()
+      triggerHtml = settings.triggerTemplate(sel.find(':selected'))
+      trigger.html(triggerHtml)
 
     sel.on 'blur', ->
       if trigger.hasClass 'open'
         setTimeout ->
-          trigger.trigger 'close.fancy'
+          trigger.trigger 'close'
         , 120
 
-    trigger.on 'close.fancy', ->
+    trigger.on 'close', ->
       trigger.removeClass 'open'
       options.removeClass 'open'
 
-    trigger.on 'click.fancy', ->
+    trigger.on 'click', ->
       unless disabled
         trigger.toggleClass 'open'
 
@@ -68,7 +73,7 @@ $.fn.fancySelect = (opts) ->
             offParent = parent.offsetParent()
 
             # TODO 20 is very static
-            if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height()
+            if (parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height() + $(window).scrollTop()
               options.addClass 'overflowing'
             else
               options.removeClass 'overflowing'
@@ -104,7 +109,7 @@ $.fn.fancySelect = (opts) ->
       if !options.hasClass('open')
         if w in [13, 32, 38, 40] # enter, space, up, down
           e.preventDefault()
-          trigger.trigger 'click.fancy'
+          trigger.trigger 'click'
       else
         if w == 38 # up
           e.preventDefault()
@@ -120,12 +125,12 @@ $.fn.fancySelect = (opts) ->
             options.find('li:first-child').addClass('hover')
         else if w == 27 # escape
           e.preventDefault()
-          trigger.trigger 'click.fancy'
+          trigger.trigger 'click'
         else if w in [13, 32] # enter, space
           e.preventDefault()
-          hovered.trigger 'click.fancy'
+          hovered.trigger 'click'
         else if w == 9 # tab
-          if trigger.hasClass 'open' then trigger.trigger 'close.fancy'
+          if trigger.hasClass 'open' then trigger.trigger 'close'
 
         newHovered = options.find('.hover')
         if newHovered.length
@@ -134,24 +139,26 @@ $.fn.fancySelect = (opts) ->
 
     # Handle item selection, and
     # Add class selected to selected item
-    options.on 'click.fancy', 'li', (e) ->
-      sel.val($(this).data('value'))
+    options.on 'click', 'li', (e) ->
+      clicked = $(this)
+
+      sel.val(clicked.data('raw-value'))
 
       sel.trigger('blur').trigger('focus') unless isiOS
 
       options.find('.selected').removeClass('selected')
-      $(e.currentTarget).addClass 'selected'
-      return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
+      clicked.addClass 'selected'
+      return sel.val(clicked.data('raw-value')).trigger('change').trigger('blur').trigger('focus')
 
     # handle mouse selection
-    options.on 'mouseenter.fancy', 'li', ->
+    options.on 'mouseenter', 'li', ->
       nowHovered = $(this)
       hovered = options.find('.hover')
       hovered.removeClass 'hover'
 
       nowHovered.addClass 'hover'
 
-    options.on 'mouseleave.fancy', 'li', ->
+    options.on 'mouseleave', 'li', ->
       options.find('.hover').removeClass('hover')
 
     copyOptionsToList = ->
@@ -164,18 +171,22 @@ $.fn.fancySelect = (opts) ->
       selOpts = sel.find 'option'
 
       # generate list of options for the fancySelect
+
       sel.find('option').each (i, opt) ->
         opt = $(opt)
 
-        if opt.val() && !opt.prop('disabled')
+        if !opt.prop('disabled') && (opt.val() || settings.includeBlank)
+          # Generate the inner HTML for the option from our template
+          optHtml = settings.optionTemplate(opt)
+
           # Is there a select option on page load?
           if opt.prop('selected')
-            options.append "<li data-value=\"#{opt.val()}\" class=\"selected\">#{opt.text()}</li>"
+            options.append "<li data-raw-value=\"#{opt.val()}\" class=\"selected\">#{optHtml}</li>"
           else
-            options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
+            options.append "<li data-raw-value=\"#{opt.val()}\">#{optHtml}</li>"
 
     # for updating the list of options after initialization
-    sel.on 'update.fancy', ->
+    sel.on 'update', ->
       wrapper.find('.options').empty()
       copyOptionsToList()
 
