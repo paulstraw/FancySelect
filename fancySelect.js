@@ -103,7 +103,7 @@
         wrapper.addClass('disabled');
         return disabled = true;
       });
-      sel.on('change', function(e) {
+      sel.on('change.fancy', function(e) {
         if (e.originalEvent && e.originalEvent.isTrusted) {
           return e.stopPropagation();
         } else {

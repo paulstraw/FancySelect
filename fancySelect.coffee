@@ -93,7 +93,7 @@ $.fn.fancySelect = (opts = {}) ->
       wrapper.addClass 'disabled'
       disabled = true
 
-    sel.on 'change', (e) ->
+    sel.on 'change.fancy', (e) ->
       if e.originalEvent && e.originalEvent.isTrusted
         # discard firefox-only automatic event when hitting enter, we want to trigger our own
         e.stopPropagation()
