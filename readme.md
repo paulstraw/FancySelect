@@ -35,7 +35,7 @@ $('.basic').fancySelect();
 Updating Options
 ----------------
 
-If the options in your select change after initializing FancySelect, you can tell it to rebuild the list of options by triggering `replace` on the select element.
+If the options in your select change after initializing FancySelect, you can tell it to rebuild the list of options by triggering `update.fs` on the select element.
 
 ### JavaScript
 
@@ -46,13 +46,13 @@ mySelect.fancySelect();
 
 mySelect.append('<option>Foo</option><option>Bar</option>');
 
-mySelect.trigger('update');
+mySelect.trigger('update.fs');
 ```
 
 Enabling/Disabling
 ------------------
 
-FancySelect will automatically pick up your `select`'s `disabled` property on initialization. If you need to enable or disable it again later, you can do that by triggering `enable` or `disable` on your select element.
+FancySelect will automatically pick up your `select`'s `disabled` property on initialization. If you need to enable or disable it again later, you can do that by triggering `enable.fs` or `disable.fs` on your select element.
 
 ### HTML
 
@@ -70,10 +70,10 @@ var mySelect = $('.my-select');
 mySelect.fancySelect(); // currently disabled because of html property
 
 // later…
-mySelect.trigger('enable'); // now enabled
+mySelect.trigger('enable.fs'); // now enabled
 
 // even later…
-mySelect.trigger('disable'); // now disabled again
+mySelect.trigger('disable.fs'); // now disabled again
 ```
 
 Templates
