@@ -5,7 +5,7 @@
   $ = window.jQuery || window.Zepto || window.$;
 
   $.fn.fancySelect = function(opts) {
-    var isiOS, settings;
+    var isiOS, settings, clicked = false;
     if (opts == null) {
       opts = {};
     }
@@ -56,6 +56,8 @@
         triggerHtml = settings.triggerTemplate(sel.find(':selected'));
         return trigger.html(triggerHtml);
       };
+
+
       sel.on('blur.fs', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
@@ -63,11 +65,21 @@
           }, 120);
         }
       });
+
       trigger.on('close.fs', function() {
-        trigger.removeClass('open');
-        return options.removeClass('open');
+        var parent = sel.parent();
+        if(!parent.is(':hover') || (parent.is(':hover') && clicked)) {
+            clicked = false;
+            trigger.removeClass('open');
+            return options.removeClass('open');
+        }
+    
+        //trigger.removeClass('open');
+        //return options.removeClass('open');
       });
-      trigger.on('click.fs', function() {
+
+      trigger.on('click.fs', function(e) {
+
         var offParent, parent;
         if (!disabled) {
           trigger.toggleClass('open');
@@ -91,7 +103,10 @@
             }
           }
         }
+
+		
       });
+
       sel.on('enable', function() {
         sel.prop('disabled', false);
         wrapper.removeClass('disabled');
@@ -110,6 +125,7 @@
           return updateTriggerText();
         }
       });
+	  
       sel.on('keydown', function(e) {
         var hovered, newHovered, w;
         w = e.which;
@@ -154,15 +170,17 @@
         }
       });
       options.on('click.fs', 'li', function(e) {
-        var clicked;
-        clicked = $(this);
-        sel.val(clicked.data('raw-value'));
+		e.stopPropagation();
+
+        clicked = true;
+        sel.val($(this).data('raw-value'));
         if (!isiOS) {
           sel.trigger('blur.fs').trigger('focus.fs');
         }
         options.find('.selected').removeClass('selected');
-        clicked.addClass('selected');
-        return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs');
+        $(this).addClass('selected');
+        return sel.val($(this).data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs');
+
       });
       options.on('mouseenter.fs', 'li', function() {
         var hovered, nowHovered;
