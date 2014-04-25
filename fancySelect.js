@@ -41,11 +41,11 @@
       if (sel.data('class')) {
         wrapper.addClass(sel.data('class'));
       }
-      wrapper.append('<div class="trigger">');
-      if (!(isiOS && !settings.forceiOS)) {
-        wrapper.append('<ul class="options">');
-      }
+      wrapper.prepend('<div class="trigger">');
       trigger = wrapper.find('.trigger');
+      if (!(isiOS && !settings.forceiOS)) {
+        trigger.after('<ul class="options">');
+      }
       options = wrapper.find('.options');
       disabled = sel.prop('disabled');
 
