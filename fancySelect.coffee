@@ -39,6 +39,12 @@ $.fn.fancySelect = (opts = {}) ->
     trigger = wrapper.find '.trigger'
     options = wrapper.find '.options'
 
+    isHovered = false
+    options.on 'mouseenter', ->
+      isHovered = true
+    options.on 'mouseleave', ->
+      isHovered = false
+
     # disabled in markup?
     disabled = sel.prop('disabled')
     if disabled
@@ -49,10 +55,14 @@ $.fn.fancySelect = (opts = {}) ->
       trigger.html(triggerHtml)
 
     sel.on 'blur.fs', ->
-      if trigger.hasClass 'open'
+      trigger.removeClass 'focus'
+      if trigger.hasClass 'open' && !isHovered
         setTimeout ->
           trigger.trigger 'close.fs'
         , 120
+
+    sel.on 'focus.fs', ->
+      trigger.addClass 'focus'
 
     trigger.on 'close.fs', ->
       trigger.removeClass 'open'
