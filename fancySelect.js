@@ -5,7 +5,7 @@
   $ = window.jQuery || window.Zepto || window.$;
 
   $.fn.fancySelect = function(opts) {
-    var isiOS, settings;
+    var isiOS, settings, clicking = true;
     if (opts == null) {
       opts = {};
     }
@@ -57,10 +57,9 @@
         return trigger.html(triggerHtml);
       };
       sel.on('blur.fs', function() {
+        if (clicking) return;
         if (trigger.hasClass('open')) {
-          return setTimeout(function() {
-            return trigger.trigger('close.fs');
-          }, 120);
+          return trigger.trigger('close.fs');
         }
       });
       trigger.on('close.fs', function() {
@@ -162,7 +161,11 @@
         }
         options.find('.selected').removeClass('selected');
         clicked.addClass('selected');
+        clicking = false;
         return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs');
+      });
+      options.on('mousedown.fs', 'li', function() {
+        clicking = true;
       });
       options.on('mouseenter.fs', 'li', function() {
         var hovered, nowHovered;
