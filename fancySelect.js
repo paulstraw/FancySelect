@@ -162,6 +162,7 @@
         }
         options.find('.selected').removeClass('selected');
         clicked.addClass('selected');
+        trigger.addClass('selected');
         return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs');
       });
       options.on('mouseenter.fs', 'li', function() {
