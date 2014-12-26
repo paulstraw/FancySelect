@@ -56,18 +56,18 @@
         triggerHtml = settings.triggerTemplate(sel.find(':selected'));
         return trigger.html(triggerHtml);
       };
-      sel.on('blur.fs', function() {
+      sel.on('fs.blur', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
-            return trigger.trigger('close.fs');
+            return trigger.trigger('fs.close');
           }, 120);
         }
       });
-      trigger.on('close.fs', function() {
+      trigger.on('fs.close', function() {
         trigger.removeClass('open');
         return options.removeClass('open');
       });
-      trigger.on('click.fs', function() {
+      trigger.on('click fs.click', function() {
         var offParent, parent;
         if (!disabled) {
           trigger.toggleClass('open');
@@ -103,7 +103,7 @@
         wrapper.addClass('disabled');
         return disabled = true;
       });
-      sel.on('change.fs', function(e) {
+      sel.on('fs.change', function(e) {
         if (e.originalEvent && e.originalEvent.isTrusted) {
           return e.stopPropagation();
         } else {
@@ -118,7 +118,7 @@
         if (!options.hasClass('open')) {
           if (w === 13 || w === 32 || w === 38 || w === 40) {
             e.preventDefault();
-            return trigger.trigger('click.fs');
+            return trigger.trigger('fs.click');
           }
         } else {
           if (w === 38) {
@@ -137,13 +137,13 @@
             }
           } else if (w === 27) {
             e.preventDefault();
-            trigger.trigger('click.fs');
+            trigger.trigger('fs.click');
           } else if (w === 13 || w === 32) {
             e.preventDefault();
-            hovered.trigger('click.fs');
+            hovered.trigger('fs.click');
           } else if (w === 9) {
             if (trigger.hasClass('open')) {
-              trigger.trigger('close.fs');
+              trigger.trigger('fs.close');
             }
           }
           newHovered = options.find('.hover');
@@ -153,26 +153,26 @@
           }
         }
       });
-      options.on('click.fs', 'li', function(e) {
+      options.on('click fs.click', 'li', function(e) {
         var clicked;
         clicked = $(this);
         sel.val(clicked.data('raw-value'));
         if (!isiOS) {
-          sel.trigger('blur.fs').trigger('focus.fs');
+          sel.trigger('fs.blur').trigger('fs.focus');
         }
         options.find('.selected').removeClass('selected');
         clicked.addClass('selected');
         trigger.addClass('selected');
-        return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs');
+        return sel.val(clicked.data('raw-value')).trigger('fs.change').trigger('fs.blur').trigger('fs.focus');
       });
-      options.on('mouseenter.fs', 'li', function() {
+      options.on('mouseenter fs.mouseenter', 'li', function() {
         var hovered, nowHovered;
         nowHovered = $(this);
         hovered = options.find('.hover');
         hovered.removeClass('hover');
         return nowHovered.addClass('hover');
       });
-      options.on('mouseleave.fs', 'li', function() {
+      options.on('mouseleave fs.mouseleave', 'li', function() {
         return options.find('.hover').removeClass('hover');
       });
       copyOptionsToList = function() {
@@ -195,7 +195,7 @@
           }
         });
       };
-      sel.on('update.fs', function() {
+      sel.on('fs.update', function() {
         wrapper.find('.options').empty();
         return copyOptionsToList();
       });
