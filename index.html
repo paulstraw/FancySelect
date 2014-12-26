@@ -47,7 +47,9 @@
 		<script src="fancySelect.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#basic-usage-demo').fancySelect();
+				$('#basic-usage-demo').fancySelect().on('fs.change', function() {
+					$(this).change();
+				});
 
 				// Boilerplate
 				var repoName = 'fancyselect'

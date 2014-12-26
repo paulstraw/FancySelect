@@ -48,17 +48,17 @@ $.fn.fancySelect = (opts = {}) ->
       triggerHtml = settings.triggerTemplate(sel.find(':selected'))
       trigger.html(triggerHtml)
 
-    sel.on 'blur.fs', ->
+    sel.on 'fs.blur', ->
       if trigger.hasClass 'open'
         setTimeout ->
-          trigger.trigger 'close.fs'
+          trigger.trigger 'fs.close'
         , 120
 
-    trigger.on 'close.fs', ->
+    trigger.on 'fs.close', ->
       trigger.removeClass 'open'
       options.removeClass 'open'
 
-    trigger.on 'click.fs', ->
+    trigger.on 'click fs.click', ->
       unless disabled
         trigger.toggleClass 'open'
 
@@ -93,7 +93,7 @@ $.fn.fancySelect = (opts = {}) ->
       wrapper.addClass 'disabled'
       disabled = true
 
-    sel.on 'change.fs', (e) ->
+    sel.on 'fs.change', (e) ->
       if e.originalEvent && e.originalEvent.isTrusted
         # discard firefox-only automatic event when hitting enter, we want to trigger our own
         e.stopPropagation()
@@ -109,7 +109,7 @@ $.fn.fancySelect = (opts = {}) ->
       if !options.hasClass('open')
         if w in [13, 32, 38, 40] # enter, space, up, down
           e.preventDefault()
-          trigger.trigger 'click.fs'
+          trigger.trigger 'fs.click'
       else
         if w == 38 # up
           e.preventDefault()
@@ -125,12 +125,12 @@ $.fn.fancySelect = (opts = {}) ->
             options.find('li:first-child').addClass('hover')
         else if w == 27 # escape
           e.preventDefault()
-          trigger.trigger 'click.fs'
+          trigger.trigger 'fs.click'
         else if w in [13, 32] # enter, space
           e.preventDefault()
-          hovered.trigger 'click.fs'
+          hovered.trigger 'fs.click'
         else if w == 9 # tab
-          if trigger.hasClass 'open' then trigger.trigger 'close.fs'
+          if trigger.hasClass 'open' then trigger.trigger 'fs.close'
 
         newHovered = options.find('.hover')
         if newHovered.length
@@ -139,27 +139,27 @@ $.fn.fancySelect = (opts = {}) ->
 
     # Handle item selection, and
     # Add class selected to selected item
-    options.on 'click.fs', 'li', (e) ->
+    options.on 'click fs.click', 'li', (e) ->
       clicked = $(this)
 
       sel.val(clicked.data('raw-value'))
 
-      sel.trigger('blur.fs').trigger('focus.fs') unless isiOS
+      sel.trigger('fs.blur').trigger('fs.focus') unless isiOS
 
       options.find('.selected').removeClass('selected')
       clicked.addClass 'selected'
       trigger.addClass 'selected'
-      return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs')
+      return sel.val(clicked.data('raw-value')).trigger('fs.change').trigger('fs.blur').trigger('fs.focus')
 
     # handle mouse selection
-    options.on 'mouseenter.fs', 'li', ->
+    options.on 'mouseenter fs.mouseenter', 'li', ->
       nowHovered = $(this)
       hovered = options.find('.hover')
       hovered.removeClass 'hover'
 
       nowHovered.addClass 'hover'
 
-    options.on 'mouseleave.fs', 'li', ->
+    options.on 'mouseleave fs.mouseleave', 'li', ->
       options.find('.hover').removeClass('hover')
 
     copyOptionsToList = ->
@@ -187,7 +187,7 @@ $.fn.fancySelect = (opts = {}) ->
             options.append "<li data-raw-value=\"#{opt.val()}\">#{optHtml}</li>"
 
     # for updating the list of options after initialization
-    sel.on 'update.fs', ->
+    sel.on 'fs.update', ->
       wrapper.find('.options').empty()
       copyOptionsToList()
 
