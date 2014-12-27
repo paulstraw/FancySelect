@@ -100,3 +100,26 @@ $('.bulbs').fancySelect({
 }
 })
 ```
+
+Triggering the change event
+---------------------------
+
+You can listen to the `change.fs` event in order to trigger the DOM's change event on the `<select>` element.
+
+### HTML
+
+``` html
+<select class="my-select" disabled>
+	<option>First Option</option>
+	<option>Second Option</option>
+</select>
+```
+
+### JavaScript
+
+``` javascript
+var mySelect = $('.my-select');
+mySelect.fancySelect().on('change.fs', function() {
+	$(this).trigger('change.$');
+}); // trigger the DOM's change event when changing FancySelect
+```
