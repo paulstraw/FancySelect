@@ -56,6 +56,15 @@
         triggerHtml = settings.triggerTemplate(sel.find(':selected'));
         return trigger.html(triggerHtml);
       };
+      $(body).on('mousedown', function() {
+        settings.clickOccured = true;
+        if (options.is(event.target)) {
+          settings.clickOccured = false;
+        }
+        return setTimeout(function() {
+          return settings.clickOccured = false;
+        }, 100);
+      });
       sel.on('blur.fs', function() {
         if (trigger.hasClass('open')) {
           return setTimeout(function() {
