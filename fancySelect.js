@@ -57,10 +57,12 @@
         return trigger.html(triggerHtml);
       };
       sel.on('blur.fs', function() {
-        if (trigger.hasClass('open')) {
+        if (trigger.hasClass('open') && !options.is(':hover')) {
           return setTimeout(function() {
             return trigger.trigger('close.fs');
           }, 120);
+        } else {
+          sel.focus();
         }
       });
       trigger.on('close.fs', function() {
