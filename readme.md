@@ -33,12 +33,6 @@ $('.basic').fancySelect();
 ```
 
 
-Contributions
--------------
-
-Any contribution is absolutely welcome, but please review the contribution guidelines before getting started.
-
-
 Updating Options
 ----------------
 
@@ -130,3 +124,10 @@ mySelect.fancySelect().on('change.fs', function() {
 	$(this).trigger('change.$');
 }); // trigger the DOM's change event when changing FancySelect
 ```
+
+
+Contributions
+-------------
+
+Any contribution is absolutely welcome, but please review the contribution guidelines before getting started.
+
