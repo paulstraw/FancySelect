@@ -32,6 +32,13 @@ FancySelect also passes any classes specified in the select's `data-class` attri
 $('.basic').fancySelect();
 ```
 
+
+Contributions
+-------------
+
+Any contribution is absolutely welcome, but please review the contribution guidelines before getting started.
+
+
 Updating Options
 ----------------
 
