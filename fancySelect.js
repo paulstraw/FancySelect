@@ -140,7 +140,7 @@
             trigger.trigger('click.fs');
           } else if (w === 13 || w === 32) {
             e.preventDefault();
-            hovered.trigger('click.fs');
+            hovered.trigger('mousedown.fs');
           } else if (w === 9) {
             if (trigger.hasClass('open')) {
               trigger.trigger('close.fs');
@@ -153,7 +153,7 @@
           }
         }
       });
-      options.on('click.fs', 'li', function(e) {
+      options.on('mousedown.fs', 'li', function(e) {
         var clicked;
         clicked = $(this);
         sel.val(clicked.data('raw-value'));

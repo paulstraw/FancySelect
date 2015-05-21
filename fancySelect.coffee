@@ -128,7 +128,7 @@ $.fn.fancySelect = (opts = {}) ->
           trigger.trigger 'click.fs'
         else if w in [13, 32] # enter, space
           e.preventDefault()
-          hovered.trigger 'click.fs'
+          hovered.trigger 'mousedown.fs'
         else if w == 9 # tab
           if trigger.hasClass 'open' then trigger.trigger 'close.fs'
 
@@ -139,7 +139,7 @@ $.fn.fancySelect = (opts = {}) ->
 
     # Handle item selection, and
     # Add class selected to selected item
-    options.on 'click.fs', 'li', (e) ->
+    options.on 'mousedown.fs', 'li', (e) ->
       clicked = $(this)
 
       sel.val(clicked.data('raw-value'))
