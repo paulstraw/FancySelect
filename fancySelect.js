@@ -80,8 +80,10 @@
               parent = trigger.parent();
               offParent = parent.offsetParent();
               if ((parent.offset().top + parent.outerHeight() + options.outerHeight() + 20) > $(window).height() + $(window).scrollTop()) {
+                trigger.addClass('overflowing');
                 options.addClass('overflowing');
               } else {
+                trigger.removeClass('overflowing');
                 options.removeClass('overflowing');
               }
             }
