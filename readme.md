@@ -77,6 +77,19 @@ mySelect.trigger('enable.fs'); // now enabled
 mySelect.trigger('disable.fs'); // now disabled again
 ```
 
+
+Including Blank Option
+----------------------
+
+FancySelect can include the blank option in the options list if you pass the `includeBlank` parameter:
+
+### JavaScript
+
+```
+var mySelect = $('.my-select');
+mySelect.fancySelect({includeBlank: true});
+```
+
 Templates
 ---------
 
