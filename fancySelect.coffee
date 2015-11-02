@@ -148,7 +148,10 @@ $.fn.fancySelect = (opts = {}) ->
 
       options.find('.selected').removeClass('selected')
       clicked.addClass 'selected'
-      trigger.addClass 'selected'
+      if clicked.data('raw-value') === ''
+        trigger.removeClass 'selected'
+      else
+        trigger.addClass 'selected'
       return sel.val(clicked.data('raw-value')).trigger('change.fs').trigger('blur.fs').trigger('focus.fs')
 
     # handle mouse selection
