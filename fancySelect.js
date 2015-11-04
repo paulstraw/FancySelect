@@ -200,4 +200,3 @@ $.fn.fancySelect = function(opts) {
     return copyOptionsToList();
   });
 };
-RunLink
