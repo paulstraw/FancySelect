@@ -115,9 +115,24 @@
         hovered = options.find('.hover');
         hovered.removeClass('hover');
         if (!options.hasClass('open')) {
-          if (w === 13 || w === 32 || w === 38 || w === 40) {
+          if (w === 13 || w === 38 || w === 40) {
             e.preventDefault();
             return trigger.trigger('click.fs');
+          } else {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+              searchTerm = '';
+            }, 500);
+            searchTerm += String.fromCharCode(w).toLowerCase();
+            optCount = options.find('li').length + 1;
+            for(var i = 1; i < optCount; i ++) {
+              var current = options.find('li:nth-child(' + i + ')');
+                  text = current.text();
+              if(text.toLowerCase().indexOf(searchTerm) >= 0) {
+                current.trigger('mousedown.fs');
+                return;
+              }
+            }
           }
         } else {
           if (w === 38) {

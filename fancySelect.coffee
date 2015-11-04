@@ -1,4 +1,5 @@
 (->
+  $ = undefined
   $ = window.jQuery or window.Zepto or window.$
 
   $.fn.fancySelect = (opts) ->
@@ -107,9 +108,25 @@
         hovered = options.find('.hover')
         hovered.removeClass 'hover'
         if !options.hasClass('open')
-          if w == 13 or w == 32 or w == 38 or w == 40
+          if w == 13 or w == 38 or w == 40
             e.preventDefault()
             return trigger.trigger('click.fs')
+          else
+            clearTimeout searchTimeout
+            searchTimeout = setTimeout((->
+              searchTerm = ''
+              return
+            ), 500)
+            searchTerm += String.fromCharCode(w).toLowerCase()
+            optCount = options.find('li').length + 1
+            i = 1
+            while i < optCount
+              current = options.find('li:nth-child(' + i + ')')
+              text = current.text()
+              if text.toLowerCase().indexOf(searchTerm) >= 0
+                current.trigger 'mousedown.fs'
+                return
+              i++
         else
           if w == 38
             e.preventDefault()
@@ -135,6 +152,8 @@
           else
             clearTimeout searchTimeout
             searchTimeout = setTimeout((->
+              `var current`
+              `var i`
               searchTerm = ''
               return
             ), 500)
