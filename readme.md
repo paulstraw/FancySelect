@@ -1,7 +1,16 @@
+# NOTICE: FancySelect is no longer actively maintained.
+
+Now that it's possible to easily style `select` elements in all major browsers, I am no longer maintaining FancySelect. Native `select`s are more usable and accessible, and you should probably use them. You're welcome to use FancySelect, but for the time being it is not officially supported.
+
+Feel free to yell at me on Twitter about this: https://twitter.com/paulstraw
+
+-paul
+
+
 FancySelect
 ===========
 
-A better select for discerning web developers everywhere, lovingly crafted by [Octopus Creative](http://octopuscreative.com). You can download it here, or [check out the demo](http://code.octopuscreative.com/fancyselect/).
+A better select for discerning web developers everywhere, lovingly crafted by [Paul Straw](http://paulstraw.com). You can download it here, or [check out the demo](http://code.octopuscreative.com/fancyselect/).
 
 Basic Usage
 -----------
