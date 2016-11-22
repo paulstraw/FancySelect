@@ -33,11 +33,16 @@ $.fn.fancySelect = (opts = {}) ->
 
     wrapper.addClass(sel.data('class')) if sel.data('class')
 
-    wrapper.append '<div class="trigger">'
-    wrapper.append '<ul class="options">' unless isiOS && !settings.forceiOS
-
+    wrapper.prepend '<div class="trigger">'
     trigger = wrapper.find '.trigger'
+    trigger.after '<ul class="options">' unless isiOS && !settings.forceiOS
     options = wrapper.find '.options'
+
+    isHovered = false
+    options.on 'mouseenter', ->
+      isHovered = true
+    options.on 'mouseleave', ->
+      isHovered = false
 
     # disabled in markup?
     disabled = sel.prop('disabled')
@@ -49,10 +54,14 @@ $.fn.fancySelect = (opts = {}) ->
       trigger.html(triggerHtml)
 
     sel.on 'blur.fs', ->
-      if trigger.hasClass 'open'
+      trigger.removeClass 'focus'
+      if trigger.hasClass 'open' && !isHovered
         setTimeout ->
           trigger.trigger 'close.fs'
         , 120
+
+    sel.on 'focus.fs', ->
+      trigger.addClass 'focus'
 
     trigger.on 'close.fs', ->
       trigger.removeClass 'open'

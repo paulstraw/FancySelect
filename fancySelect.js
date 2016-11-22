@@ -41,13 +41,22 @@
       if (sel.data('class')) {
         wrapper.addClass(sel.data('class'));
       }
-      wrapper.append('<div class="trigger">');
-      if (!(isiOS && !settings.forceiOS)) {
-        wrapper.append('<ul class="options">');
-      }
+      wrapper.prepend('<div class="trigger">');
       trigger = wrapper.find('.trigger');
+      if (!(isiOS && !settings.forceiOS)) {
+        trigger.after('<ul class="options">');
+      }
       options = wrapper.find('.options');
       disabled = sel.prop('disabled');
+
+      var isHovered = false;
+      options.on('mouseenter', function() {
+        isHovered = true;
+      });
+      options.on('mouseleave', function() {
+        isHovered = false;
+      });
+
       if (disabled) {
         wrapper.addClass('disabled');
       }
@@ -57,11 +66,15 @@
         return trigger.html(triggerHtml);
       };
       sel.on('blur.fs', function() {
-        if (trigger.hasClass('open')) {
+        trigger.removeClass('focus');
+        if (trigger.hasClass('open') && !isHovered) {
           return setTimeout(function() {
             return trigger.trigger('close.fs');
           }, 120);
         }
+      });
+      sel.on('focus.fs', function() {
+        trigger.addClass('focus');
       });
       trigger.on('close.fs', function() {
         trigger.removeClass('open');
