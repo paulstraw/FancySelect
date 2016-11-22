@@ -47,7 +47,13 @@ $.fn.fancySelect = (opts = {}) ->
     updateTriggerText = ->
       triggerHtml = settings.triggerTemplate(sel.find(':selected'))
       trigger.html(triggerHtml)
-
+    $(body).on 'mousedown', ->
+      settings.clickOccured = true
+      if options.is(event.target)
+        settings.clickOccured = false
+      setTimeout ->
+        settings.clickOccured = false
+      ,100
     sel.on 'blur.fs', ->
       if trigger.hasClass 'open'
         setTimeout ->
