@@ -156,7 +156,7 @@
       options.on('mousedown.fs', 'li', function(e) {
         var clicked;
         clicked = $(this);
-        sel.val(clicked.data('raw-value'));
+        sel.val(clicked.data('raw-value')).change();
         if (!isiOS) {
           sel.trigger('blur.fs').trigger('focus.fs');
         }
