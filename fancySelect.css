@@ -144,3 +144,13 @@ div.fancy-select ul.options li.selected {
 div.fancy-select ul.options li.hover {
 	color: #fff;
 }
+
+div.fancy-select ul.options li.optgroup {
+	color: #8e8e8e;
+	cursor: default;
+	font-style: italic;
+}
+
+.fancy-select ul.options li.optchild {
+	padding-left: 30px;
+}
