@@ -156,6 +156,9 @@
       options.on('mousedown.fs', 'li', function(e) {
         var clicked;
         clicked = $(this);
+        if (clicked.hasClass("optgroup")) {
+        	return false;
+        }
         sel.val(clicked.data('raw-value'));
         if (!isiOS) {
           sel.trigger('blur.fs').trigger('focus.fs');
@@ -181,18 +184,24 @@
         if (isiOS && !settings.forceiOS) {
           return;
         }
-        selOpts = sel.find('option');
-        return sel.find('option').each(function(i, opt) {
+        selOpts = sel.find('option, optgroup');
+        return sel.find('option, optgroup').each(function(i, opt) {
           var optHtml;
           opt = $(opt);
-          if (!opt.prop('disabled') && (opt.val() || settings.includeBlank)) {
+          if (opt.is("optgroup")) {
+          	return options.append("<li class=\"optgroup\" data-raw-value=\"\">" + opt.attr("label") + "</li>");
+          }else if (!opt.prop('disabled') && (opt.val() || settings.includeBlank)) {
             optHtml = settings.optionTemplate(opt);
+            var isChild = opt.parent().is("optgroup");
             if (opt.prop('selected')) {
-              return options.append("<li data-raw-value=\"" + (opt.val()) + "\" class=\"selected\">" + optHtml + "</li>");
+              return options.append("<li data-raw-value=\"" + (opt.val()) + "\" class=\"selected" + (isChild ? " optchild" : "") + "\">" + optHtml + "</li>");
             } else {
-              return options.append("<li data-raw-value=\"" + (opt.val()) + "\">" + optHtml + "</li>");
+              return options.append("<li data-raw-value=\"" + (opt.val()) + "\"" + (isChild ? " class=\"optchild\"" : "") + ">" + optHtml + "</li>");
             }
           }
+        });
+        options.find(".optgroup").on("click", function(e){
+        	e.preventDefault();
         });
       };
       sel.on('update.fs', function() {
